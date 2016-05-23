@@ -17,6 +17,7 @@ public class converterToAFD {
     Automato afn  = new Automato();
     String alfabeto;
     ArrayList<String>estados = new ArrayList<>();
+    ArrayList<String> transicoestable = new ArrayList<>();
     
     public converterToAFD(String fecho,Automato afn,String alfabeto){
         this.fecho= fecho;
@@ -40,6 +41,7 @@ public class converterToAFD {
         ArrayList<String>auxiliar = new ArrayList<>();
         ArrayList<String> aux = new ArrayList<>();
         
+        
         estados.add(fecho);
         
         alfabeto = c.getalfabeto(alfabeto);
@@ -47,18 +49,39 @@ public class converterToAFD {
         alfabeto = "a".concat(alfabeto);        
        
         do{
-//            if(estados.contains(string)){
-//                break;
-//            }
 
+            fecho = fecho.replace(", ", "");
+            fecho = fecho.replace("[", "");
+            fecho = fecho.replace("]", "");
             
             //System.out.println("Fecho: " + fecho);
-            for(int i = 0; i<afn.linhastabela; i++){
-                if(fecho.contains("q"+i)){
-                    divide.add("q"+i);
-                    //System.out.println("q"+i);
-                }
-            }
+            
+            for(int i=0;i<fecho.length();i++){
+                            int in = i;
+                            if(fecho.charAt(i) == 'q'){
+                                in++;
+                                outroauxiliar = "q";
+                                while(in < fecho.length() && fecho.charAt(in) != 'q'){
+                                    outroauxiliar += "" + fecho.charAt(in);
+                                    in++;  
+                                }
+                                divide.add(outroauxiliar);
+                                //outroauxiliar = "";
+                                in--;
+                            }
+                            i = in;
+                        }
+            
+            //outroauxiliar = "";
+                        
+                    
+            
+//            for(int i = 0; i<afn.linhastabela; i++){
+//                if(fecho.contains("q"+i)){
+//                    divide.add("q"+i);
+//                    //System.out.println("q"+i);
+//                }
+//            }
 
             //System.out.println(alfabeto);
 
@@ -67,27 +90,29 @@ public class converterToAFD {
                     conjuntoEstados += Func_Transicao(divide.get(k), alfabeto.charAt(j));
                     //System.out.println(aux);
                 }
-                //System.out.println("J : " + j);
+                
                 conjuntoEstados = conjuntoEstados.replace("[", "");
                 conjuntoEstados = conjuntoEstados.replace("]", "");
+                //conjuntoEstados = conjuntoEstados.replace(" ", "-");
+                //System.out.println("J:" + conjuntoEstados);
                 auxiliar.add(conjuntoEstados);// da pra usar pra fazer a tabela(preencer)
-                
                 //System.out.print(" Conj: " + conjuntoEstados);
-//                for(int z=0;z<conjuntoEstados.length();z++){
-//                    System.out.print(conjuntoEstados.charAt(z));
-//                }
+                
                 conjuntoEstados = "";
             }
             
             //System.out.println("" + auxiliar.toString());
            
+            int contador=0;
             for(int j = 0; j < auxiliar.size(); j++){
                 teste = auxiliar.get(j);
-                //System.out.println(teste);
+                
+                System.out.print(teste);
                     //for(int i = 0; i <= afn.linhastabela; i++){
                         for(int i=0;i<teste.length();i++){
                             int in = i;
                             if(teste.charAt(i) == 'q'){
+                                contador++;
                                 in++;
                                 outroauxiliar = "q";
                                 while(in < teste.length() && teste.charAt(in) != 'q'){
@@ -101,22 +126,37 @@ public class converterToAFD {
                             i = in;
                         }
                         
-                    }
+            }
+            if(contador==1){
+                divide2.add("-");
+            }else if(contador==0){
+                divide2.add("-");
+                divide2.add("-");
+            }
+            
             //System.out.println("Divide2: " + divide2.toString());
             
                
             
             
             
-            //System.out.println("Divide2: " + divide2.toString());
+            ///////System.out.println("Divide2: " + divide2.toString());
             
             for(int i = 0; i<divide2.size(); i++){
                 string = afn.UniaoEstados(string, afn.Fecho_E(divide2.get(i)));
+                
+               
+                string = string.replace(", ", "");
+                string = string.replace("]", "");
+                string = string.replace("[", "");
                 //System.out.println("fechos :" + string);
                 aux.add(string);
+                transicoestable.add(string);
+                
                 string = "";
             }
-            
+            //System.out.println("aux: "+aux.toString());
+            //System.out.println("trans: " + transicoestable.toString());
             //System.out.println("Fechos: " + aux.toString());
             for(int i = 0; i < aux.size(); i++){
                 if(!estados.contains(aux.get(i))){
@@ -142,8 +182,13 @@ public class converterToAFD {
 
             
         }while(cont < estados.size());
-        
+       if(estados.contains("")){
+           System.out.println("entrou");
+           estados.remove(estados.indexOf(""));
+       } 
+       
         String Estadosarrumado = estados.toString();
+        //System.out.println("size est "+estados.size());
         
         for(int i = 0; i < estados.size(); i++ ){
             Estadosarrumado = estados.get(i);
@@ -156,7 +201,7 @@ public class converterToAFD {
         
         
         
-        System.out.println("Estados: " + estados.toString());
+       System.out.println("Estados: " + estados.toString());
         
 //        String matriz[][] = new String[estados.size()][alfabeto.length() - 1];
 //        for(int i = 0; i < estados.size(); i++){
@@ -171,19 +216,35 @@ public class converterToAFD {
 //            }
 //        }
         
+        matrizAFD();
         return estados;
     }
     
-    public String [][]matrizAFD(){
-        String[][] afd = new String[estados.size()][alfabeto.length()-2];
-        
+    public void matrizAFD(){
+        int cont = 0;
+        //System.out.println("Transicoes " + transicoestable.size());
+        String[][] afd = new String[estados.size()][alfabeto.length()-1];
+        //System.out.println("TRansicoes table: " + transicoestable.size());
         //converterToAFD a = new converterToAFD();
-        for(int j = 1; j < alfabeto.length() - 1; j++){
-            for(int k = 0; k < estados.size(); k++){
-                afd[j][k]=estados.get(k);
+        //for(int p = 0; p < transicoestable.size(); p++){//12
+            for(int i = 0 ; i < estados.size(); i++){
+                afd[i][0] = estados.get(i);
+                for(int k = 1; k < alfabeto.length() - 1; k++){//2
+                    afd[i][k] = transicoestable.get(cont);
+                    cont++;
+                }
+                //////////////cont++;
             }
-        }
-        return afd;
+
+            
+            for(int i = 0 ; i < estados.size(); i++){
+                //afd[i][0] = estados.get(i);
+                for(int k = 1; k < alfabeto.length() - 1; k++){
+                    System.out.print(" Tabela :" + afd[i][k]+"   ");
+                }
+                System.out.print("\n");
+            }
+        //return afd;
     }
     
     public String Func_Transicao(String estado, char transicao){

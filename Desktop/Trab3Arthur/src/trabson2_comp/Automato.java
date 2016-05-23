@@ -154,6 +154,10 @@ public class Automato {
       String maisoutroauxiliar;
       ArrayList<String>saidafecho = new ArrayList<>();
       String retorno = estado;
+      if (retorno=="-"){
+          //System.out.println("entrou hueee");
+          return retorno;
+      }
       Conversao_infixa_posfixa c = new Conversao_infixa_posfixa();
       //System.out.println("Entrou: " + estado);
       String alfabeto = c.getalfabeto(saida);
@@ -224,7 +228,7 @@ public class Automato {
             maisoutroauxiliar = "q";
             while(in < retorno.length() && retorno.charAt(in) != 'q'){
                 maisoutroauxiliar += "" + retorno.charAt(in);
-                //System.out.println("charat" + retorno.charAt(in));
+                //System.out.println("charat" + maisoutroauxiliar);
                 in++;  
             }
             quebra.add(maisoutroauxiliar);
@@ -234,7 +238,7 @@ public class Automato {
         }
         i = in;
     }
-      System.out.println("Quebra: " + quebra.toString());
+      //System.out.println("Quebra: " + quebra.toString());
 //System.out.println("q" + estados + ", " + fecho);
       return quebra.toString();
   }
