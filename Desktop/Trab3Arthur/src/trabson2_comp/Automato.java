@@ -155,7 +155,7 @@ public class Automato {
       ArrayList<String>saidafecho = new ArrayList<>();
       String retorno = estado;
       if (retorno == "-"){
-          System.out.println("entrou hueee");
+          //System.out.println("entrou hueee");
           return retorno;
       }
       Conversao_infixa_posfixa c = new Conversao_infixa_posfixa();
@@ -232,17 +232,24 @@ public class Automato {
         if(retorno.charAt(i) == 'q'){
             //System.out.println("Entrou");
             in++;
-            maisoutroauxiliar = "q";
+            //maisoutroauxiliar = "q";
             while(in < retorno.length() && retorno.charAt(in) != 'q'){
-                maisoutroauxiliar += "" + retorno.charAt(in);
+                //maisoutroauxiliar += "" + retorno.charAt(in);
                 pegaint += "" + retorno.charAt(in);
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //TODO: NESSA LINHA PEGAR OS NUMEROS, TRANSFORMAR EM INTEGER, ORDERNAR E DEPOIS IMPRIMIR EM STRING DE NOVO///
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 in++;  
             }
-            inteiro.add(Integer.parseInt(pegaint));
-            quebra.add(maisoutroauxiliar);
+            if(!inteiro.isEmpty()){
+                for(int j = 0; j < inteiro.size(); j++){
+                    if(inteiro.get(j) != Integer.parseInt(pegaint))
+                        inteiro.add(Integer.parseInt(pegaint));//////////ARRUMARRRRRRRRRRRR
+                }
+                
+            }else
+                inteiro.add(Integer.parseInt(pegaint));
+            //quebra.add(maisoutroauxiliar);
             //divide2.add(outroauxiliar);
             //outroauxiliar = "";
             in--;
@@ -250,16 +257,20 @@ public class Automato {
         }
         i = in;
     }
+      //inteiro.
       inteiro.sort(null);
-      System.out.print("inteiro" + inteiro);
+      //System.out.print("inteiro" + inteiro);
       //System.out.println("Quebra: " + quebra.toString());
 //System.out.println("q" + estados + ", " + fecho);
+    for(int i = 0; i < inteiro.size(); i++){
+        quebra.add("q" + inteiro.get(i).toString());
+    }
       aux = quebra.toString();
       aux = aux.replace(", ", "");
       aux = aux.replace("]", "");
       aux = aux.replace("[", "");
       
-
+      //System.out.println("aux: " + aux);
       return aux;
   }
     

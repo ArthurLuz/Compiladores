@@ -178,8 +178,7 @@ public class converterToAFD {
 
                             string = "";
                             q = 0;
-                        }
-                    
+                        }   
                 }
             }
             //System.out.println("aux: "+aux.toString());
@@ -271,9 +270,9 @@ public class converterToAFD {
             for(int i = 0 ; i < estados.size(); i++){
                 //afd[i][0] = estados.get(i);
                 for(int k = 0; k < alfabeto.length() - 1; k++){
-                    //System.out.print(" :" + afd[i][k] + " ");
+                    System.out.print(" :" + afd[i][k] + " ");
                 }
-                //System.out.print("\n");
+                System.out.print("\n");
             }
         //return afd;
     }
