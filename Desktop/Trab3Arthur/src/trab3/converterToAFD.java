@@ -36,12 +36,14 @@ public class converterToAFD {
         Conversao_infixa_posfixa c = new Conversao_infixa_posfixa();
         int cont = 0;
         String string = "";
+        String string2 = "";
         ArrayList<String>divide = new ArrayList<>();
         ArrayList<String>divide2 = new ArrayList<>();
         ArrayList<String>auxiliar = new ArrayList<>();
         ArrayList<String> aux = new ArrayList<>();
         
         
+        System.out.println("Fecho: " + fecho);
         estados.add(fecho);
         
         alfabeto = c.getalfabeto(alfabeto);
@@ -49,6 +51,7 @@ public class converterToAFD {
         alfabeto = "a".concat(alfabeto);        
        
         do{
+            
 
             fecho = fecho.replace(", ", "");
             fecho = fecho.replace("[", "");
@@ -88,31 +91,42 @@ public class converterToAFD {
             for(int j = 1; j < alfabeto.length() - 1; j++){  // essa porra pega a concatenação do fecho tanto comparando 0 como 1 
                 for(int k = 0; k < divide.size(); k++){
                     conjuntoEstados += Func_Transicao(divide.get(k), alfabeto.charAt(j));
-                    //System.out.println(aux);
+                    //System.out.print(conjuntoEstados);
                 }
                 
+                //System.out.print(" "+conjuntoEstados);
                 conjuntoEstados = conjuntoEstados.replace("[", "");
                 conjuntoEstados = conjuntoEstados.replace("]", "");
                 //conjuntoEstados = conjuntoEstados.replace(" ", "-");
                 //System.out.println("J:" + conjuntoEstados);
-                auxiliar.add(conjuntoEstados);// da pra usar pra fazer a tabela(preencer)
+                if(!conjuntoEstados.contains("q") && conjuntoEstados != "")
+                    conjuntoEstados = "-";
+                    
                 //System.out.print(" Conj: " + conjuntoEstados);
+                if((conjuntoEstados.contains("q") || conjuntoEstados == "-"))
+                    auxiliar.add(conjuntoEstados);// da pra usar pra fazer a tabela(preencer)
+                    
                 
                 conjuntoEstados = "";
             }
             
-            //System.out.println("" + auxiliar.toString());
+           //
            
-            int contador=0;
+            
+            
+        if(!auxiliar.isEmpty()){
+            //System.out.println("" + auxiliar.toString());
             for(int j = 0; j < auxiliar.size(); j++){
                 teste = auxiliar.get(j);
                 
-                System.out.print(teste);
+                //System.out.print(teste);
                     //for(int i = 0; i <= afn.linhastabela; i++){
                         for(int i=0;i<teste.length();i++){
                             int in = i;
-                            if(teste.charAt(i) == 'q'){
-                                contador++;
+                            if(teste.charAt(i) == '-'){
+                                divide2.add(""+teste.charAt(i));
+                            }
+                            else if(teste.charAt(i) == 'q'){
                                 in++;
                                 outroauxiliar = "q";
                                 while(in < teste.length() && teste.charAt(in) != 'q'){
@@ -122,42 +136,57 @@ public class converterToAFD {
                                 divide2.add(outroauxiliar);
                                 //outroauxiliar = "";
                                 in--;
-                            }
+                            }   
                             i = in;
                         }
                         
             }
-            if(contador==1){
-                divide2.add("-");
-            }else if(contador==0){
-                divide2.add("-");
-                divide2.add("-");
-            }
+//            if(contador==1){
+//                divide2.add("-");
+//            }
+//            if(contador2 == 2){
+//                divide2.add("-");
+//                divide2.add("-");
+//            }
+        }
             
-            //System.out.println("Divide2: " + divide2.toString());
-            
-               
-            
+           //System.out.println("Divide2: " + divide2.toString());
+        
             
             
-            ///////System.out.println("Divide2: " + divide2.toString());
-            
-            for(int i = 0; i<divide2.size(); i++){
-                string = afn.UniaoEstados(string, afn.Fecho_E(divide2.get(i)));
-                
-               
-                string = string.replace(", ", "");
-                string = string.replace("]", "");
-                string = string.replace("[", "");
-                //System.out.println("fechos :" + string);
-                aux.add(string);
-                transicoestable.add(string);
-                
-                string = "";
+            if(!divide2.isEmpty()){
+                int q = 0;
+                //System.out.println("Divide2: " + divide2.size());
+                for(int i = 0; i<divide2.size(); i++){
+                    
+                        string = afn.UniaoEstados(string, afn.Fecho_E(divide2.get(i)));
+//                        string2 = afn.UniaoEstados(string, afn.Fecho_E(divide2.get(i+1)));
+
+
+                        string = string.replace(", ", "");
+                        string = string.replace("]", "");
+                        string = string.replace("[", "");
+//                        
+                        q++;
+//                        string2 = string2.replace(", ", "");
+//                        string2 = string2.replace("]", "");
+//                        string2 = string2.replace("[", "");
+                        //System.out.println("fechos :" + string);
+                        if(q == alfabeto.length() - 2){
+                            aux.add(string);
+                            transicoestable.add(string);
+
+                            string = "";
+                            q = 0;
+                        }
+                    
+                }
             }
             //System.out.println("aux: "+aux.toString());
             //System.out.println("trans: " + transicoestable.toString());
             //System.out.println("Fechos: " + aux.toString());
+            
+            
             for(int i = 0; i < aux.size(); i++){
                 if(!estados.contains(aux.get(i))){
                     //System.out.println("Entrou");
@@ -182,8 +211,10 @@ public class converterToAFD {
 
             
         }while(cont < estados.size());
+        
+        
        if(estados.contains("")){
-           System.out.println("entrou");
+           //System.out.println("entrou");
            estados.remove(estados.indexOf(""));
        } 
        
@@ -239,17 +270,17 @@ public class converterToAFD {
             
             for(int i = 0 ; i < estados.size(); i++){
                 //afd[i][0] = estados.get(i);
-                for(int k = 1; k < alfabeto.length() - 1; k++){
-                    System.out.print(" Tabela :" + afd[i][k]+"   ");
+                for(int k = 0; k < alfabeto.length() - 1; k++){
+                    //System.out.print(" :" + afd[i][k] + " ");
                 }
-                System.out.print("\n");
+                //System.out.print("\n");
             }
         //return afd;
     }
     
     public String Func_Transicao(String estado, char transicao){
         ArrayList<String> retorno = new ArrayList<>();
-        String aux= "";
+        String aux = "";
         ArrayList<String> fechos = new ArrayList<>();
         for(int i = 0; i<afn.linhastabela; i++){
             if(estado.equals("q" + i)){
@@ -272,6 +303,11 @@ public class converterToAFD {
             }
            
         }
+        //aux = fechos.toString();
+        
+        //aux = aux.replace("[", "");
+        //aux = aux.replace("]", "");
+        //Estadosarrumado = Estadosarrumado.replace(", ", "");
 //        if(!fechos.isEmpty()){
 //            for (int l=0; l<fechos.size();l++){
 //                aux=afn.UniaoEstados(aux, afn.Fecho_E(fechos.get(l)));
@@ -281,7 +317,7 @@ public class converterToAFD {
  //System.out.print("aux"+aux);
         //System.out.print("fechos: " + fechos.toString());
 
-        //System.out.print("AUX: " + fechos.toString());
+        //System.out.print(aux);
         return aux;
     }
 }

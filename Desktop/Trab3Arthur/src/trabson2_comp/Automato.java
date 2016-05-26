@@ -154,8 +154,8 @@ public class Automato {
       String maisoutroauxiliar;
       ArrayList<String>saidafecho = new ArrayList<>();
       String retorno = estado;
-      if (retorno=="-"){
-          //System.out.println("entrou hueee");
+      if (retorno == "-"){
+          System.out.println("entrou hueee");
           return retorno;
       }
       Conversao_infixa_posfixa c = new Conversao_infixa_posfixa();
@@ -215,10 +215,17 @@ public class Automato {
   }
   
   public String UniaoEstados(String estados, String fecho){
+      
+      String pegaint = "";
       String retorno = estados + fecho;
+      String aux;
+      retorno = retorno.replace(", ", "");
+      retorno = retorno.replace("]", "");
+      retorno = retorno.replace("[", "");
       //System.out.println("Retorno:" + retorno);
       String maisoutroauxiliar;
       ArrayList<String> quebra = new ArrayList<>();
+      ArrayList<Integer> inteiro = new ArrayList<>();
       for(int i=0;i < retorno.length();i++){
         int in = i;
           //System.out.println("charAT" + retorno.charAt(i));
@@ -228,19 +235,32 @@ public class Automato {
             maisoutroauxiliar = "q";
             while(in < retorno.length() && retorno.charAt(in) != 'q'){
                 maisoutroauxiliar += "" + retorno.charAt(in);
-                //System.out.println("charat" + maisoutroauxiliar);
+                pegaint += "" + retorno.charAt(in);
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                //TODO: NESSA LINHA PEGAR OS NUMEROS, TRANSFORMAR EM INTEGER, ORDERNAR E DEPOIS IMPRIMIR EM STRING DE NOVO///
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 in++;  
             }
+            inteiro.add(Integer.parseInt(pegaint));
             quebra.add(maisoutroauxiliar);
             //divide2.add(outroauxiliar);
             //outroauxiliar = "";
             in--;
+            pegaint = "";
         }
         i = in;
     }
+      inteiro.sort(null);
+      System.out.print("inteiro" + inteiro);
       //System.out.println("Quebra: " + quebra.toString());
 //System.out.println("q" + estados + ", " + fecho);
-      return quebra.toString();
+      aux = quebra.toString();
+      aux = aux.replace(", ", "");
+      aux = aux.replace("]", "");
+      aux = aux.replace("[", "");
+      
+
+      return aux;
   }
     
   
@@ -372,7 +392,7 @@ public boolean Eoperador(Character a){
 
 public Automato er_para_afn(String re) {
     char simbolo;
-    int operadores_cont = 0;
+    //int operadores_cont = 0;
     Stack<Automato> pilha = new Stack<Automato>();
     Automato novo;
     
