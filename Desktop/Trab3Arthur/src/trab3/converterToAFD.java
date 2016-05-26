@@ -91,16 +91,18 @@ public class converterToAFD {
             for(int j = 1; j < alfabeto.length() - 1; j++){  // essa porra pega a concatenação do fecho tanto comparando 0 como 1 
                 for(int k = 0; k < divide.size(); k++){
                     conjuntoEstados += Func_Transicao(divide.get(k), alfabeto.charAt(j));
-                    //System.out.print(conjuntoEstados);
+                    //System.out.print("Conj: " + conjuntoEstados);
                 }
                 
-                //System.out.print(" "+conjuntoEstados);
+                //System.out.print("Conj: "+conjuntoEstados);
                 conjuntoEstados = conjuntoEstados.replace("[", "");
                 conjuntoEstados = conjuntoEstados.replace("]", "");
                 //conjuntoEstados = conjuntoEstados.replace(" ", "-");
                 //System.out.println("J:" + conjuntoEstados);
-                if(!conjuntoEstados.contains("q") && conjuntoEstados != "")
+                if(!conjuntoEstados.contains("q") && conjuntoEstados != ""){
                     conjuntoEstados = "-";
+                    //System.out.println("ensttrou");
+                }
                     
                 //System.out.print(" Conj: " + conjuntoEstados);
                 if((conjuntoEstados.contains("q") || conjuntoEstados == "-"))
@@ -114,73 +116,98 @@ public class converterToAFD {
            
             
             
-        if(!auxiliar.isEmpty()){
-            //System.out.println("" + auxiliar.toString());
-            for(int j = 0; j < auxiliar.size(); j++){
-                teste = auxiliar.get(j);
-                
-                //System.out.print(teste);
-                    //for(int i = 0; i <= afn.linhastabela; i++){
-                        for(int i=0;i<teste.length();i++){
-                            int in = i;
-                            if(teste.charAt(i) == '-'){
-                                divide2.add(""+teste.charAt(i));
-                            }
-                            else if(teste.charAt(i) == 'q'){
-                                in++;
-                                outroauxiliar = "q";
-                                while(in < teste.length() && teste.charAt(in) != 'q'){
-                                    outroauxiliar += "" + teste.charAt(in);
-                                    in++;  
-                                }
-                                divide2.add(outroauxiliar);
-                                //outroauxiliar = "";
-                                in--;
-                            }   
-                            i = in;
-                        }
-                        
-            }
-//            if(contador==1){
-//                divide2.add("-");
+//        if(!auxiliar.isEmpty()){
+//            System.out.println("" + auxiliar.toString());
+//            for(int j = 0; j < auxiliar.size(); j++){
+//                teste = auxiliar.get(j);
+//                
+//                //System.out.print(teste);
+//                    //for(int i = 0; i <= afn.linhastabela; i++){
+//                        for(int i=0;i<teste.length();i++){
+//                            int in = i;
+//                            if(teste.charAt(i) == '-'){
+//                                divide2.add(""+teste.charAt(i));
+//                            }
+//                            else if(teste.charAt(i) == 'q'){
+//                                in++;
+//                                outroauxiliar = "q";
+//                                while(in < teste.length() && teste.charAt(in) != 'q'){
+//                                    outroauxiliar += "" + teste.charAt(in);
+//                                    in++;  
+//                                }
+//                                divide2.add(outroauxiliar);
+//                                //outroauxiliar = "";
+//                                in--;
+//                            }   
+//                            i = in;
+//                        }
+//                        
 //            }
-//            if(contador2 == 2){
-//                divide2.add("-");
-//                divide2.add("-");
-//            }
-        }
+////            if(contador==1){
+////                divide2.add("-");
+////            }
+////            if(contador2 == 2){
+////                divide2.add("-");
+////                divide2.add("-");
+////            }
+//        }
             
            //System.out.println("Divide2: " + divide2.toString());
         
             
             
-            if(!divide2.isEmpty()){
-                int q = 0;
-                //System.out.println("Divide2: " + divide2.size());
-                for(int i = 0; i<divide2.size(); i++){
-                    
-                        string = afn.UniaoEstados(string, afn.Fecho_E(divide2.get(i)));
+            //if(!auxiliar.isEmpty()){
+                //int q = 0;
+                String ajuda;
+                String ajudamais;
+                //System.out.println("Divide2: " + divide2.toString());
+                for(int i = 0; i < auxiliar.size(); i++){
+                    //System.out.println("size: "+ auxiliar.size());
+                    ajuda = auxiliar.get(i);
+                    //System.out.println("entrou");
+                    System.out.println("ajuda: " + ajuda);
+                    for(int j = 0; j < ajuda.length(); j++){
+                        //System.out.println("entrou");
+                        //System.out.println("length" +  ajuda.length());
+                        int in = j;
+                        if(ajuda.charAt(j) == 'q'){
+                            in++;
+                            ajudamais = "q";
+                            while(in < ajuda.length() && ajuda.charAt(in) != 'q'){
+                                ajudamais += "" + ajuda.charAt(in);
+                                //System.out.println("entrou");
+                                in++;  
+                            }
+                            System.out.println("ajudamais: " + ajudamais);
+                            string = afn.UniaoEstados(string, afn.Fecho_E(ajudamais));
+                            //saidafecho.add(maisoutroauxiliar);
+                            //divide2.add(outroauxiliar);
+                            //outroauxiliar = "";
+                            in--;
+                        }
+                        j = in;
+                    }
+                        //string = afn.UniaoEstados(string, afn.Fecho_E(divide2.get(i)));
 //                        string2 = afn.UniaoEstados(string, afn.Fecho_E(divide2.get(i+1)));
+                    
 
 
                         string = string.replace(", ", "");
                         string = string.replace("]", "");
                         string = string.replace("[", "");
-//                        
-                        q++;
+//                       
 //                        string2 = string2.replace(", ", "");
 //                        string2 = string2.replace("]", "");
 //                        string2 = string2.replace("[", "");
                         //System.out.println("fechos :" + string);
-                        if(q == alfabeto.length() - 2){
                             aux.add(string);
                             transicoestable.add(string);
 
                             string = "";
-                            q = 0;
+                            //q = 0;
                         }   
-                }
-            }
+                //}
+            
             //System.out.println("aux: "+aux.toString());
             //System.out.println("trans: " + transicoestable.toString());
             //System.out.println("Fechos: " + aux.toString());

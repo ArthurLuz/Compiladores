@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 import javax.swing.JOptionPane;
 import conversao_infixa_posfixa.Conversao_infixa_posfixa;
+import java.util.Collections;
 
 
 
@@ -223,7 +224,7 @@ public class Automato {
       retorno = retorno.replace("]", "");
       retorno = retorno.replace("[", "");
       //System.out.println("Retorno:" + retorno);
-      String maisoutroauxiliar;
+      //String maisoutroauxiliar;
       ArrayList<String> quebra = new ArrayList<>();
       ArrayList<Integer> inteiro = new ArrayList<>();
       for(int i=0;i < retorno.length();i++){
@@ -242,11 +243,17 @@ public class Automato {
                 in++;  
             }
             if(!inteiro.isEmpty()){
+                boolean w = false;
                 for(int j = 0; j < inteiro.size(); j++){
-                    if(inteiro.get(j) != Integer.parseInt(pegaint))
-                        inteiro.add(Integer.parseInt(pegaint));//////////ARRUMARRRRRRRRRRRR
+                    if(inteiro.get(j) == Integer.parseInt(pegaint)){
+                        //System.out.println("entrou");
+                        w = true;//////////ARRUMARRRRRRRRRRRR
+                    }
                 }
-                
+                if(w != true){
+                    //System.out.println("entrou");
+                    inteiro.add(Integer.parseInt(pegaint));
+                }
             }else
                 inteiro.add(Integer.parseInt(pegaint));
             //quebra.add(maisoutroauxiliar);
@@ -258,7 +265,13 @@ public class Automato {
         i = in;
     }
       //inteiro.
-      inteiro.sort(null);
+      Collections.sort(inteiro);
+//      for(int i = 0; i < inteiro.size() - 1; i++){
+//          for(int j = i + 1; j < inteiro.size(); j++){
+//              
+//          }
+//              
+//      }
       //System.out.print("inteiro" + inteiro);
       //System.out.println("Quebra: " + quebra.toString());
 //System.out.println("q" + estados + ", " + fecho);
@@ -266,11 +279,12 @@ public class Automato {
         quebra.add("q" + inteiro.get(i).toString());
     }
       aux = quebra.toString();
+      //System.out.println("aux : " + aux);
       aux = aux.replace(", ", "");
       aux = aux.replace("]", "");
       aux = aux.replace("[", "");
-      
-      //System.out.println("aux: " + aux);
+      //System.out.println("aux : " + aux);
+      //System.out.print("aux: " + aux);
       return aux;
   }
     
