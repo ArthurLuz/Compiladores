@@ -279,20 +279,62 @@ public class converterToAFD {
     
     public void matrizAFD(){
         int cont = 0;
+        String aux;
+        boolean isFinal = false;
+        String maisoutroauxiliar = "";
+        String estadofinal = "q"+afn.getEstado_Final();
+        //System.out.println("estado final: " + estadofinal);
         //System.out.println("Transicoes " + transicoestable.size());
         String[][] afd = new String[estados.size()][alfabeto.length()-1];
         //System.out.println("TRansicoes table: " + transicoestable.size());
         //converterToAFD a = new converterToAFD();
         //for(int p = 0; p < transicoestable.size(); p++){//12
+        
             for(int i = 0 ; i < estados.size(); i++){
-                afd[i][0] = estados.get(i);
-                for(int k = 1; k < alfabeto.length() - 1; k++){//2
+                aux = estados.get(i);
+                for(int t = 0; t < aux.length(); t++){
+                    int in = t;
+                    if(aux.charAt(t) == 'q'){
+                        in++;
+                        maisoutroauxiliar = "q";
+                        while(in < aux.length() && aux.charAt(in) != 'q'){
+                            maisoutroauxiliar += "" + aux.charAt(in);
+                            in++;  
+                        }
+                        if(maisoutroauxiliar.equals(estadofinal))
+                            isFinal = true;
+                        //saidafecho.add(maisoutroauxiliar);
+                        //divide2.add(outroauxiliar);
+                        //outroauxiliar = "";
+                        in--;
+                    }
+                    t = in;
+                }
+                if(isFinal == true){
+                    afd[i][0] = "*" + estados.get(i);
+                    isFinal = false;
+                }else
+                    afd[i][0] = estados.get(i);
+                
+                for(int k = 1; k < alfabeto.length() - 1; k++){//ESSE FOR PREENCHE A TABELA
                     afd[i][k] = transicoestable.get(cont);
                     cont++;
                 }
                 //////////////cont++;
             }
 
+            
+            for(int i = 0 ; i < estados.size(); i++){
+                //afd[i][0] = estados.get(i);
+                for(int k = 0; k < alfabeto.length() - 1; k++){
+                    if(afd[i][k].equals(estados.get(i))){
+                        //System.out.println("entrou");
+                        afd[i][k] = "q" + i;
+                    }
+                    //System.out.print(" :" + afd[i][k] + " ");
+                }
+                //System.out.print("\n");
+            }
             
             for(int i = 0 ; i < estados.size(); i++){
                 //afd[i][0] = estados.get(i);

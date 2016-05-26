@@ -208,13 +208,16 @@ public class Tela extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        jButton1ActionPerformed(evt);
         Automato aut = new Automato(saida);
         afn = aut.er_para_afn(saida);
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void CriarAFDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CriarAFDActionPerformed
         // TODO add your handling code here:
         //Automato aux = new Automato();
+        jButton2ActionPerformed(evt);
         String fecho;
         
         afn = afn.Set_Afn(afn);
