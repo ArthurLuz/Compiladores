@@ -165,7 +165,7 @@ public class converterToAFD {
                     //System.out.println("size: "+ auxiliar.size());
                     ajuda = auxiliar.get(i);
                     //System.out.println("entrou");
-                    System.out.println("ajuda: " + ajuda);
+                    //System.out.println("ajuda: " + ajuda);
                     for(int j = 0; j < ajuda.length(); j++){
                         //System.out.println("entrou");
                         //System.out.println("length" +  ajuda.length());
@@ -178,7 +178,7 @@ public class converterToAFD {
                                 //System.out.println("entrou");
                                 in++;  
                             }
-                            System.out.println("ajudamais: " + ajudamais);
+                            //System.out.println("ajudamais: " + ajudamais);
                             string = afn.UniaoEstados(string, afn.Fecho_E(ajudamais));
                             //saidafecho.add(maisoutroauxiliar);
                             //divide2.add(outroauxiliar);
@@ -324,16 +324,22 @@ public class converterToAFD {
             }
 
             
-            for(int i = 0 ; i < estados.size(); i++){
-                //afd[i][0] = estados.get(i);
-                for(int k = 0; k < alfabeto.length() - 1; k++){
-                    if(afd[i][k].equals(estados.get(i))){
-                        //System.out.println("entrou");
-                        afd[i][k] = "q" + i;
+                for(int i = 0 ; i < estados.size(); i++){
+                    //afd[i][0] = estados.get(i);
+                    for(int k = 0; k < alfabeto.length() - 1; k++){
+                        for(int f = 0; f < estados.size(); f++){
+                            if(afd[f][k].equals(estados.get(i))){
+                                //System.out.println("entrou");
+                                afd[f][k] = "q" + i;
+                            }
+                            //System.out.println("estados" + estados.get(i));
+                            if((afd[f][k].contains("*"))){
+                                afd[f][k] = "*q" + i;
+                            }
+                        //System.out.print(" :" + afd[i][k] + " ");
                     }
-                    //System.out.print(" :" + afd[i][k] + " ");
+                    //System.out.print("\n");
                 }
-                //System.out.print("\n");
             }
             
             for(int i = 0 ; i < estados.size(); i++){
