@@ -62,13 +62,7 @@ public class Automato {
             }
             texto+="Estado Final: q" + afn.getEstado_Final();
             JOptionPane.showMessageDialog(null,texto);  
-            //Set_Afn(afn);
-//            String texto2 = "";
-//            for(int i = 0; i < a.Conj_Estados.size(); i++){
-//                conj = a.Conj_Estados.get(i);
-//                texto2+="q" + conj.de + " --> q" + conj.paraestado1 + ", q" + conj.paraestado2 + " : simbolo = " + conj.simbolo+"\n";
-//            }
-//            JOptionPane.showMessageDialog(null,texto2);  
+ 
    }
    
   public Automato Set_Afn(Automato afn){
@@ -453,7 +447,7 @@ public Automato er_para_afn(String re) {
     Automato afn = pilha.pop();
     afn.saida = saida;
     if(pilha.empty()){
-        imprimir(afn);
+        //imprimir(afn);
     }
     
     return afn;

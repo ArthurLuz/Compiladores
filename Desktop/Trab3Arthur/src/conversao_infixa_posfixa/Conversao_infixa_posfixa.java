@@ -18,7 +18,7 @@ public class Conversao_infixa_posfixa {
     ArrayList<Character> express = new ArrayList<Character>();
     String expressao;
    
-    Conversao_infixa_posfixa(String expressao){
+    public Conversao_infixa_posfixa(String expressao){
         this.expressao = expressao;
     }
     public Conversao_infixa_posfixa(){
