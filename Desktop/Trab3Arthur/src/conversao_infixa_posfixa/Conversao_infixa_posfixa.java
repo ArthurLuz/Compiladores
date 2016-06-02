@@ -67,6 +67,7 @@ public class Conversao_infixa_posfixa {
             }
 //------
         }
+        //System.out.println("Express: " + express.toString());
         
         for( i =0; i<express.size(); i++){
             simbolo = express.get(i);
@@ -139,11 +140,13 @@ public class Conversao_infixa_posfixa {
         for(int i = 0; i<arrumada.length(); i++){
           simbolo = arrumada.charAt(i);
         
-            if(simbolo == '+' || simbolo == '.' || simbolo == '(' || simbolo == '*'){
+          if(simbolo == '+' || simbolo == '.' || simbolo == '(' || simbolo == '*'){
                 int prioridade = Prioridade(simbolo);
            
                 while(!pilhaoperador.isEmpty() && Prioridade(pilhaoperador.get(pilhaoperador.size()-1)) >= prioridade){
                     if(Prioridade(pilhaoperador.get(pilhaoperador.size()-1)) == 3 && prioridade == 1 ){
+                        break;
+                    }else if(Prioridade(pilhaoperador.get(pilhaoperador.size()-1)) == 2 && prioridade == 1 ){
                         break;
                     }
                     else if(pilhaoperador.get(pilhaoperador.size()-1) != '('){

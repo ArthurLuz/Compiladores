@@ -157,6 +157,7 @@ public class TelaInicial extends javax.swing.JFrame {
         String estado_atual = estado;
         String estado_final = null;
         char c;
+        boolean entrou = true;
         int indice = 0;
         int cont = 0;
         int i = 0;
@@ -169,11 +170,19 @@ public class TelaInicial extends javax.swing.JFrame {
                 //System.out.println("emtrou");
                 while(indice < entradaafd.length()){
                     c = entradaafd.charAt(indice);
-                    aux = lista.get(i);
-                    System.out.println("token: " + aux.token);
+                    if(entrou == true){
+                        for(int j = 0; j < lista.size(); j++){
+                            if(transicao(lista.get(j).tableafd, lista.get(j).linhas, lista.get(j).colunas, lista.get(j).alfabeto, estado_atual, c)){
+                                aux = lista.get(j);
+                                break;
+                            }
+                        }
+                    }
+                    //System.out.println("token: " + aux.token);
                     //System.out.println("estatual: " + estado_atual);
                     if(transicao(aux.tableafd, aux.linhas, aux.colunas, aux.alfabeto, estado_atual, c)){
-                        System.out.println("C: " + c);
+                        entrou = false;
+                        //System.out.println("C: " + c);
                         estado_atual = proximoEstado(aux.tableafd, aux.linhas, aux.colunas, aux.alfabeto, estado_atual, c);
                         //System.out.println("transicao");
                         indice++;
@@ -183,7 +192,7 @@ public class TelaInicial extends javax.swing.JFrame {
                             cont = indice;
                         }
                         //System.out.println("cont: " + cont);
-                    }else {
+                    }else { 
                         if(estado_final != null){
                             tokens.add(aux.token);
                             indice = cont++;
@@ -192,24 +201,18 @@ public class TelaInicial extends javax.swing.JFrame {
                         }else{
                             tokens.add("Error");
                             indice++;
-                        }                   //i = 0;
+                        }   
+                        entrou = true;//i = 0;
                         //System.out.println("entrou!!");
-                      if(i < lista.size()){
-                            i++;
-                      }else
-                          i = 0;
-                    }
-                    //System.out.println("i: " + i);
-                    
-                //}
-                
-                
+                    } 
             }
+                
+                if(estado_final != null){
+                    //System.out.println("entrou!!");
+                    tokens.add(aux.token);
+                }
             
-            if(estado_final != null){
-                //System.out.println("entrou!!");
-                tokens.add(aux.token);
-            }
+            
           //System.out.println("tokens: " + tokens.toString());
           saida_tokens.setText(tokens.toString());
         //}

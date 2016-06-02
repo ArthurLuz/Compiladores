@@ -151,8 +151,10 @@ public class tela_tokens extends javax.swing.JFrame {
         
         try{
          auxiliar = a.Arrumar_o_Erro_do_usuario_burro();
+            //System.out.println("Auxiliar: " + auxiliar);
         
         posfixa = a.Converte(auxiliar);
+            //System.out.println("posfixa:" + posfixa.toString());
         
         saida = posfixa.toString();
         saida = saida.replace(", ", "");
@@ -178,7 +180,7 @@ public class tela_tokens extends javax.swing.JFrame {
             }
         
         }
-        System.out.println("" + saida);
+        System.out.println("saida: " + saida);
         
         Automato aut = new Automato(saida);
         afn = aut.er_para_afn(saida);
