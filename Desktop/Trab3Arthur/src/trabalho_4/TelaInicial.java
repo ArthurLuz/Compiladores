@@ -69,7 +69,7 @@ public class TelaInicial extends javax.swing.JFrame {
         erros.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         erros.setOpaque(true);
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setText("Entrada");
 
         jLabel2.setText("Saída - Tokens");
 
