@@ -6,6 +6,7 @@
 package trabalho_4;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -36,7 +37,6 @@ public class TelaInicial extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         entrada = new javax.swing.JTextArea();
-        erros = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -63,12 +63,6 @@ public class TelaInicial extends javax.swing.JFrame {
         entrada.setRows(5);
         jScrollPane1.setViewportView(entrada);
 
-        erros.setBackground(new java.awt.Color(0, 0, 0));
-        erros.setForeground(new java.awt.Color(255, 255, 0));
-        erros.setText("jLabel2");
-        erros.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        erros.setOpaque(true);
-
         jLabel1.setText("Entrada");
 
         jLabel2.setText("Saída - Tokens");
@@ -87,28 +81,25 @@ public class TelaInicial extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(erros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(407, 407, 407))
-                            .addComponent(jScrollPane2))))
+                        .addComponent(jLabel2)
+                        .addGap(407, 407, 407))
+                    .addComponent(jScrollPane2))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(121, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
@@ -121,9 +112,7 @@ public class TelaInicial extends javax.swing.JFrame {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(erros, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(181, 181, 181))
         );
 
         pack();
@@ -138,16 +127,20 @@ public class TelaInicial extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        try{
         entradaafd = entrada.getText();
         lista = tokens.getListaAfd();
-        //System.out.println("Lista: " + lista.size());
-
+        //System.out.println("Lista: " + lista.size())
         //while(entradaafd != null){
-            //System.out.println("Entrada: " + entradaafd);
-            Analisar("q0");
+        //System.out.println("Entrada: " + entradaafd);
+        Analisar("q0");
+        if ("".equals(entradaafd))
+            throw new NullPointerException();
+        }catch(NullPointerException i){
             //Analisar("q0");
+            JOptionPane.showMessageDialog(null,"Nada pra ser analisado"," ", 1);
             //Analisar();
-        //}
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     
@@ -214,7 +207,11 @@ public class TelaInicial extends javax.swing.JFrame {
             
             
           //System.out.println("tokens: " + tokens.toString());
-          saida_tokens.setText(tokens.toString());
+        String s=tokens.toString();
+            s = s.replace(", ", "><");
+            s = s.replace("[", "<");
+            s = s.replace("]", ">");
+          saida_tokens.setText(s);
         //}
         //System.out.println("Estfinal: " + estado_final);
         
@@ -310,7 +307,6 @@ public class TelaInicial extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea entrada;
-    private javax.swing.JLabel erros;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
