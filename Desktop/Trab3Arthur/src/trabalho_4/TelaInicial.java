@@ -36,10 +36,11 @@ public class TelaInicial extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         entrada = new javax.swing.JTextArea();
-        saida_token = new javax.swing.JLabel();
         erros = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        saida_tokens = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -62,12 +63,6 @@ public class TelaInicial extends javax.swing.JFrame {
         entrada.setRows(5);
         jScrollPane1.setViewportView(entrada);
 
-        saida_token.setBackground(new java.awt.Color(0, 0, 0));
-        saida_token.setForeground(new java.awt.Color(255, 255, 0));
-        saida_token.setText("jLabel1");
-        saida_token.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        saida_token.setOpaque(true);
-
         erros.setBackground(new java.awt.Color(0, 0, 0));
         erros.setForeground(new java.awt.Color(255, 255, 0));
         erros.setText("jLabel2");
@@ -78,13 +73,21 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jLabel2.setText("Saída - Tokens");
 
+        saida_tokens.setEditable(false);
+        saida_tokens.setBackground(new java.awt.Color(10, 9, 7));
+        saida_tokens.setColumns(20);
+        saida_tokens.setForeground(new java.awt.Color(255, 250, 0));
+        saida_tokens.setLineWrap(true);
+        saida_tokens.setRows(5);
+        jScrollPane2.setViewportView(saida_tokens);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(erros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -95,12 +98,12 @@ public class TelaInicial extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addGap(0, 464, Short.MAX_VALUE))
-                            .addComponent(saida_token, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                                .addGap(407, 407, 407))
+                            .addComponent(jScrollPane2))))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,15 +113,14 @@ public class TelaInicial extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(85, 85, 85)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1)
-                        .addComponent(saida_token, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(erros, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -143,52 +145,77 @@ public class TelaInicial extends javax.swing.JFrame {
         //while(entradaafd != null){
             //System.out.println("Entrada: " + entradaafd);
             Analisar("q0");
-            Analisar("q0");
+            //Analisar("q0");
             //Analisar();
         //}
     }//GEN-LAST:event_jButton2ActionPerformed
 
     
-    public String Analisar(String estado){
-        Afd aux;
+    public void Analisar(String estado){
+        Afd aux = new Afd();
+        ArrayList<String> tokens = new ArrayList<>();
         String estado_atual = estado;
         String estado_final = null;
         char c;
-        int cont = 0;
         int indice = 0;
+        int cont = 0;
+        int i = 0;
 
         //for(int i = 0; i < lista.size(); i++){
-            aux = lista.get(0);
+            
             //System.out.println("Alfabeto: " + aux.alfabeto);
-            while(cont < entradaafd.length()){
+            //while(indice < entradaafd.length()){
+                
                 //System.out.println("emtrou");
-                c = entradaafd.charAt(cont);
-                //System.out.println("estatual: " + c);
-                if(transicao(aux.tableafd, aux.linhas, aux.colunas, aux.alfabeto, estado_atual, c)){
-                    estado_atual = proximoEstado(aux.tableafd, aux.linhas, aux.colunas, aux.alfabeto, estado_atual, c);
-                    //System.out.println("transicao");
-                    if(estadoFinal(aux.tableafd, aux.linhas, aux.colunas, aux.alfabeto, estado_atual, c)){
-                        //System.out.println("AQUI");
-                        estado_final = estado_atual;
-                        indice = 0;
-                    }
-                    else{
+                while(indice < entradaafd.length()){
+                    c = entradaafd.charAt(indice);
+                    aux = lista.get(i);
+                    System.out.println("token: " + aux.token);
+                    //System.out.println("estatual: " + estado_atual);
+                    if(transicao(aux.tableafd, aux.linhas, aux.colunas, aux.alfabeto, estado_atual, c)){
+                        System.out.println("C: " + c);
+                        estado_atual = proximoEstado(aux.tableafd, aux.linhas, aux.colunas, aux.alfabeto, estado_atual, c);
+                        //System.out.println("transicao");
                         indice++;
+                        if(estadoFinal(aux.tableafd, aux.linhas, aux.colunas, aux.alfabeto, estado_atual, c)){
+                            //System.out.println("AQUI");
+                            estado_final = estado_atual;  
+                            cont = indice;
+                        }
+                        //System.out.println("cont: " + cont);
+                    }else {
+                        if(estado_final != null){
+                            tokens.add(aux.token);
+                            indice = cont++;
+                            estado_atual = "q0";
+                            estado_final = null;
+                        }else{
+                            tokens.add("Error");
+                            indice++;
+                        }                   //i = 0;
+                        //System.out.println("entrou!!");
+                      if(i < lista.size()){
+                            i++;
+                      }else
+                          i = 0;
                     }
-                    cont++;
-                    //System.out.println("cont: " + cont);
-                }else
-                    break;
+                    //System.out.println("i: " + i);
+                    
+                //}
+                
+                
             }
-          
+            
+            if(estado_final != null){
+                //System.out.println("entrou!!");
+                tokens.add(aux.token);
+            }
+          //System.out.println("tokens: " + tokens.toString());
+          saida_tokens.setText(tokens.toString());
         //}
         //System.out.println("Estfinal: " + estado_final);
-        if(estado_final != null){
-            //System.out.println("entrou: " + indice);
-            retrocederFita(indice);
-            return aux.token;
-        }
-        return null;
+        
+        //return null;
 
     }
     
@@ -199,16 +226,16 @@ public class TelaInicial extends javax.swing.JFrame {
                 if(est_atual.equals(table[i][0]) || ("*"+est_atual).equals(table[i][0])){
                     if(alfa.charAt(j) == caracter){
                         //System.out.println("Entrou aqui satanas : " + "i: " + i + "j: " + j);
-                        if(table[i][j].equals("")){
+                        if(!table[i][j].equals("")){
                             
-                            return false;
+                            return true;
                         }
                     }
                 }
             }
         }
         
-        return true;
+        return false;
     }
     
     String proximoEstado(String[][]table, int li, int col, String alfa, String est_atual, char caracter){
@@ -286,6 +313,7 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel saida_token;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea saida_tokens;
     // End of variables declaration//GEN-END:variables
 }
