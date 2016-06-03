@@ -28,6 +28,7 @@ public class tela_tokens extends javax.swing.JFrame {
      */
     public tela_tokens() {
         initComponents();
+       
     }
 
     /**
@@ -48,6 +49,7 @@ public class tela_tokens extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setResizable(false);
 
@@ -101,10 +103,17 @@ public class tela_tokens extends javax.swing.JFrame {
 
         jLabel2.setText("Token");
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Done");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Pósfixa");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -117,8 +126,12 @@ public class tela_tokens extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton2)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(81, 81, 81)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,24 +166,27 @@ public class tela_tokens extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void inserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirActionPerformed
         // TODO add your handling code here:
         try{
         String auxiliar = "";
         DefaultTableModel model = (DefaultTableModel) tabela.getModel();
-        String texttable;
+        String texttable, textpadrao;
         texttable=token.getText();
-        if("".equals(texttable)) throw new RuntimeException();
+        textpadrao = padrao.getText();
+        if("".equals(texttable)||"".equals(textpadrao)) throw new RuntimeException();
        
-        model.addRow(new String[]{""+model.getRowCount(), padrao.getText(), "<" + texttable + ">"});
+        model.addRow(new String[]{""+model.getRowCount(), textpadrao, "<" + texttable + ">"});
         
         Conversao_infixa_posfixa a = new Conversao_infixa_posfixa(padrao.getText());
         
@@ -219,12 +235,13 @@ public class tela_tokens extends javax.swing.JFrame {
         
         converter.afntoafd();
         set_Afd(converter.estados.size(), converter.alfabeto.length()-1, converter.alfabeto, converter.matrizAFD(), token.getText());
-         }catch(RuntimeException b){
-            JOptionPane.showMessageDialog(null, "informe o nome do token","Alerta", 2);
-        }finally{
         padrao.setText("");
         token.setText("");
+        }catch(RuntimeException b){
+            JOptionPane.showMessageDialog(null, "falta preencher campo","Alerta", 2);
         }
+        
+        
         //Analisar ana = new Analisar(padrao.getText().toString());
     }//GEN-LAST:event_inserirActionPerformed
 
@@ -274,6 +291,27 @@ public class tela_tokens extends javax.swing.JFrame {
         this.setVisible(false);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try{    
+            int selRow = tabela.getSelectedRow();
+        Object valor = tabela.getModel().getValueAt(selRow, 1);
+        
+        String s = valor.toString();
+            System.out.println("sout  "+s);
+        String j;
+        Conversao_infixa_posfixa b = new Conversao_infixa_posfixa(s);
+            j= b.Arrumar_o_Erro_do_usuario_burro();
+            posfixa=b.Converte(j);
+            s = posfixa.toString();
+        s = s.replace(", ", "");
+       s = s.replace("[", "");
+        s= s.replace("]", "");
+            JOptionPane.showMessageDialog(null,""+s,"Pósfixa ", 1);
+        }catch(ArrayIndexOutOfBoundsException p){
+            JOptionPane.showMessageDialog(null,"Selecione uma linha ","Alerta ", 1);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -312,6 +350,7 @@ public class tela_tokens extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton inserir;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
